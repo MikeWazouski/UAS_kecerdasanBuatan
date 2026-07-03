@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroExpert</title>
+    <style>
+        :root {
+            /* Apple Color Palette */
+            --apple-blue: #007aff;
+            --apple-blue-hover: #005bb5;
+            --apple-bg: #f5f5f7;
+            --apple-card: rgba(255, 255, 255, 0.75);
+            --apple-text: #1d1d1f;
+            --apple-text-muted: #86868b;
+            --apple-border: rgba(0, 0, 0, 0.08);
+        }
+        
+        body {
+            /* SF Pro Text / Apple System Font */
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?q=80&w=2029&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--apple-text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 760px;
+            /* macOS Acrylic Blur Effect */
+            background: var(--apple-card);
+            backdrop-filter: saturate(180%) blur(24px);
+            -webkit-backdrop-filter: saturate(180%) blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header { text-align: center; margin-bottom: 35px; }
+        .header h1 { margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.5px; }
+        .header p { margin: 8px 0 0; color: var(--apple-text-muted); font-size: 17px; }
+        
+        .nav-links { display: flex; justify-content: flex-end; margin-bottom: 15px; }
+        .nav-links a {
+            text-decoration: none; color: var(--apple-blue); font-weight: 500; font-size: 15px;
+            background: rgba(255,255,255,0.5); padding: 6px 14px; border-radius: 14px;
+            transition: all 0.2s ease; border: 1px solid var(--apple-border);
+        }
+        .nav-links a:hover { background: white; transform: scale(1.02); }
+
+        .kategori-title {
+            margin-top: 28px; margin-bottom: 12px; font-size: 20px; font-weight: 600;
+            color: var(--apple-text); letter-spacing: -0.3px; padding-left: 8px;
+        }
+
+        /* iOS List Style */
+        .gejala-grid {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--apple-border);
+            margin-bottom: 15px;
+        }
+        
+        .gejala-item {
+            display: flex; align-items: flex-start; padding: 14px 20px;
+            cursor: pointer; transition: background 0.2s;
+            border-bottom: 1px solid var(--apple-border);
+        }
+        .gejala-item:last-child { border-bottom: none; }
+        .gejala-item:hover { background: rgba(255, 255, 255, 0.9); }
+        
+        .gejala-item input {
+            appearance: none; -webkit-appearance: none; width: 22px; height: 22px;
+            border: 1px solid #c7c7cc; border-radius: 50%; margin-right: 15px; margin-top: 2px;
+            outline: none; cursor: pointer; position: relative; transition: all 0.2s;
+            flex-shrink: 0; background: white;
+        }
+        .gejala-item input:checked {
+            background: var(--apple-blue); border-color: var(--apple-blue);
+        }
+        .gejala-item input:checked::after {
+            content: ''; position: absolute; top: 6px; left: 6px; width: 8px; height: 8px;
+            background: white; border-radius: 50%;
+        }
+        
+        .gejala-teks { font-size: 16px; line-height: 1.4; color: var(--apple-text); }
+        .kode-gejala { color: var(--apple-text-muted); font-size: 13px; margin-right: 6px; font-weight: 500; }
+
+        .btn-diagnosa {
+            width: 100%; padding: 16px; background: var(--apple-blue); color: white;
+            border: none; border-radius: 14px; font-size: 17px; font-weight: 600;
+            cursor: pointer; transition: 0.2s; margin-top: 30px; letter-spacing: -0.3px;
+        }
+        .btn-diagnosa:hover { background: var(--apple-blue-hover); transform: scale(0.99); }
+        .btn-diagnosa:active { transform: scale(0.97); }
+
+        .result-box {
+            margin-top: 30px; padding: 24px; border-radius: 18px; 
+            background: rgba(255, 255, 255, 0.85); display: none; 
+            animation: fadeIn 0.4s ease-out; border: 1px solid var(--apple-border);
+        }
+        .result-box h3 { margin: 0 0 10px 0; font-size: 22px; letter-spacing: -0.5px; }
+        .result-box p { font-size: 16px; line-height: 1.5; margin: 0; }
+        
+        .explanation { 
+            margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(0,0,0,0.1); 
+            font-size: 14px; color: var(--apple-text-muted); line-height: 1.5; 
+        }
+        .explanation ul { padding-left: 20px; margin-top: 8px; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="nav-links"><a href="pakar.html">Pengaturan Pakar</a></div>
+    <div class="header">
+        <h1>AgroExpert</h1>
+        <p>Identifikasi Cerdas Tanaman Padi</p>
+    </div>
+
+    <div id="gejala-container">
+        </div>
+
+    <button class="btn-diagnosa" onclick="diagnosa()">Analisis Gejala</button>
+
+    <div id="hasil-diagnosis" class="result-box">
+        <h3 id="nama-penyakit"></h3>
+        <p id="rekomendasi-penyakit"></p>
+        <div class="explanation" id="penjelasan-logika"></div>
+    </div>
+</div>
+
+<script>
+    // Data V3 Lengkap
+    const defaultData = {
+        kategoriGejala: {
+            "Gejala pada Daun": {
+                "G01": "Daun menguning mulai dari ujung hingga ke pangkal",
+                "G02": "Terdapat bercak coklat berbentuk belah ketupat",
+                "G03": "Daun menggulung, melintir, atau mengering",
+                "G04": "Terdapat garis kuning/putih sejajar tulang daun",
+                "G12": "Terdapat bercak oval/bulat coklat dengan tepi kekuningan",
+                "G13": "Daun menggulung menyerupai daun bawang (puru)"
+            },
+            "Gejala pada Batang": {
+                "G05": "Tanaman tumbuh kerdil secara tidak normal",
+                "G06": "Batang bawah membusuk, lunak, atau berbau",
+                "G07": "Terdapat jelaga hitam di area pangkal batang",
+                "G08": "Batang mudah tercabut dan titik tumbuh mati",
+                "G14": "Batang terpotong miring seperti bekas gigitan",
+                "G15": "Bibit/tanaman muda terpotong di area tergenang"
+            },
+            "Gejala pada Bulir & Lainnya": {
+                "G09": "Malai padi hampa, berwarna putih, dan tegak lurus",
+                "G10": "Bulir padi kehitaman atau terdapat bercak coklat",
+                "G11": "Akar membusuk dan berwarna kecoklatan/hitam",
+                "G16": "Tercium bau menyengat (seperti kepik)",
+                "G17": "Terdapat kumpulan telur merah muda cerah",
+                "G18": "Kerusakan memusat di tengah petak sawah"
+            }
+        },
+        penyakit: {
+            "P01": { nama: "Penyakit Blas", gejalaTerkait: ["G01", "G02", "G06"], rekomendasi: "Gunakan fungisida trisiklazol dan rotasi tanaman." },
+            "P02": { nama: "Wereng Coklat", gejalaTerkait: ["G01", "G05", "G07"], rekomendasi: "Gunakan insektisida pimetrozin, keringkan lahan berselang." },
+            "P03": { nama: "Penyakit Tungro", gejalaTerkait: ["G01", "G05", "G03"], rekomendasi: "Cabut tanaman terinfeksi, kendalikan wereng hijau." },
+            "P04": { nama: "Penggerek Batang", gejalaTerkait: ["G08", "G09"], rekomendasi: "Gunakan karbofuran pada pesemaian, atur waktu tanam." },
+            "P05": { nama: "Hawar Daun Bakteri", gejalaTerkait: ["G01", "G04"], rekomendasi: "Gunakan bakterisida, kurangi pupuk Nitrogen." },
+            "P06": { nama: "Hama Tikus", gejalaTerkait: ["G14", "G18"], rekomendasi: "Lakukan gropyokan, gunakan umpan beracun/pengemposan." },
+            "P07": { nama: "Hama Keong Mas", gejalaTerkait: ["G15", "G17"], rekomendasi: "Pungut telur manual, buat parit, pasang saringan air." },
+            "P08": { nama: "Walang Sangit", gejalaTerkait: ["G09", "G10", "G16"], rekomendasi: "Kendalikan gulma, pasang umpan bangkai, semprot fipronil." },
+            "P09": { nama: "Bercak Daun Coklat", gejalaTerkait: ["G11", "G12"], rekomendasi: "Perbaiki kesuburan tanah (Kalium), gunakan mankozeb." },
+            "P10": { nama: "Hama Ganjur", gejalaTerkait: ["G05", "G13"], rekomendasi: "Hindari penanaman lambat, kurangi genangan air." }
+        }
+    };
+
+    if (!localStorage.getItem('agroDataV3')) {
+        localStorage.setItem('agroDataV3', JSON.stringify(defaultData));
+    }
+    const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV3'));
+
+    function getFlatGejala() {
+        let flat = {};
+        for (let k in knowledgeBase.kategoriGejala) Object.assign(flat, knowledgeBase.kategoriGejala[k]);
+        return flat;
+    }
+
+    function renderGejala() {
+        const container = document.getElementById("gejala-container");
+        container.innerHTML = "";
+        
+        for (const [kategori, gejalaObj] of Object.entries(knowledgeBase.kategoriGejala)) {
+            const title = document.createElement("div");
+            title.className = "kategori-title";
+            title.innerText = kategori;
+            container.appendChild(title);
+
+            const grid = document.createElement("div");
+            grid.className = "gejala-grid";
+
+            for (const [kode, deskripsi] of Object.entries(gejalaObj)) {
+                const label = document.createElement("label");
+                label.className = "gejala-item";
+                label.innerHTML = `
+                    <input type="checkbox" value="${kode}"> 
+                    <span class="gejala-teks"><span class="kode-gejala">${kode}</span> ${deskripsi}</span>
+                `;
+                grid.appendChild(label);
+            }
+            container.appendChild(grid);
+        }
+    }
+
+    function diagnosa() {
+        const checkboxes = document.querySelectorAll('.gejala-item input[type="checkbox"]:checked');
+        const gejalaPilihan = Array.from(checkboxes).map(cb => cb.value);
+        const resultBox = document.getElementById("hasil-diagnosis");
+        const flatGejala = getFlatGejala();
+
+        if (gejalaPilihan.length === 0) {
+            alert("Pilih minimal satu gejala untuk memulai diagnosis.");
+            return;
+        }
+
+        let kandidatTerbaik = null; let skorTertinggi = 0; let gejalaCocokTerbaik = [];
+
+        for (const [kodeP, dataP] of Object.entries(knowledgeBase.penyakit)) {
+            const irisanGejala = dataP.gejalaTerkait.filter(g => gejalaPilihan.includes(g));
+            const skor = (irisanGejala.length / dataP.gejalaTerkait.length) * 100;
+            if (skor > skorTertinggi) {
+                skorTertinggi = skor; kandidatTerbaik = dataP; gejalaCocokTerbaik = irisanGejala;
+            }
+        }
+
+        resultBox.style.display = "block";
+        if (kandidatTerbaik && skorTertinggi >= 50) {
+            document.getElementById("nama-penyakit").innerHTML = `${kandidatTerbaik.nama} <span style="font-size:15px; font-weight:normal; color:#86868b; float:right;">Akurasi: ${skorTertinggi.toFixed(0)}%</span>`;
+            document.getElementById("rekomendasi-penyakit").innerHTML = `<strong>Tindakan:</strong> ${kandidatTerbaik.rekomendasi}`;
+            
+            let penjelasanHtml = `<strong>Logika Sistem:</strong> Membutuhkan ${kandidatTerbaik.gejalaTerkait.length} gejala utama:<ul style="margin:8px 0; padding-left:20px;">`;
+            kandidatTerbaik.gejalaTerkait.forEach(kodeG => {
+                const ter = gejalaCocokTerbaik.includes(kodeG);
+                penjelasanHtml += `<li><span style="color:${ter?'#34c759':'#ff3b30'}; font-weight:bold;">${ter?'✓':'✕'}</span> ${flatGejala[kodeG]}</li>`;
+            });
+            document.getElementById("penjelasan-logika").innerHTML = penjelasanHtml + "</ul>";
+        } else {
+            document.getElementById("nama-penyakit").innerText = "Tidak Ditemukan Kecocokan";
+            document.getElementById("rekomendasi-penyakit").innerText = "Pola gejala terlalu acak. Konsultasikan dengan pakar langsung.";
+            document.getElementById("penjelasan-logika").innerHTML = "";
+        }
+    }
+    window.onload = renderGejala;
+</script>
+</body>
+</html>
