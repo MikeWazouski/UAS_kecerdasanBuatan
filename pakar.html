@@ -3,84 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroExpert - Pakar</title>
+    <title>AgroExpert | Panel Akuisisi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --apple-blue: #007aff; --apple-blue-hover: #005bb5;
-            --apple-bg: #f5f5f7; --apple-card: rgba(255, 255, 255, 0.75);
-            --apple-text: #1d1d1f; --apple-text-muted: #86868b;
-            --apple-border: rgba(0, 0, 0, 0.08);
+            --bg-mint: #dcecd5;
+            --bg-white: #f9fcf7;
+            --text-dark: #2b5329;
+            --text-muted: #5a7a58;
+            --accent-green: #3d7a42;
         }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-            background: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?q=80&w=2029&auto=format&fit=crop') no-repeat center center fixed;
-            background-size: cover; min-height: 100vh; margin: 0; display: flex;
-            justify-content: center; align-items: center; padding: 20px; color: #1d1d1f;
+            font-family: 'Lato', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            overflow: hidden;
         }
-        .app-container {
-            width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: saturate(180%) blur(24px); -webkit-backdrop-filter: saturate(180%) blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 24px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+
+        .split-layout { display: flex; height: 100vh; width: 100vw; }
+
+        .left-panel {
+            flex: 0 0 45%;
+            position: relative;
+            /* Menggunakan gambar yang agak berbeda untuk halaman pakar */
+            background: url('https://images.unsplash.com/photo-1592982537447-6f2334f487cb?q=80&w=2000&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 60px; color: white; box-sizing: border-box;
         }
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-        .nav-links { margin-bottom: 20px; }
-        .nav-links a { text-decoration: none; color: #007aff; font-weight: 500; font-size: 15px; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; color: #1d1d1f; }
+        
+        .left-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.6) 100%); z-index: 1;
+        }
+
+        .header-content { position: relative; z-index: 2; }
+        .header-content h1 { font-family: 'Playfair Display', serif; font-size: 64px; margin: 0 0 20px 0; line-height: 1.1; }
+        .header-content p { font-size: 18px; line-height: 1.6; margin: 0; opacity: 0.9; max-width: 400px; }
+
+        .right-panel {
+            flex: 1; background-color: var(--bg-white); padding: 60px 80px;
+            overflow-y: auto; box-sizing: border-box; position: relative;
+        }
+
+        .nav-links { position: absolute; top: 30px; right: 40px; }
+        .nav-links a {
+            text-decoration: none; color: var(--accent-green); font-weight: 700;
+            font-size: 14px; letter-spacing: 1px; padding: 10px 20px;
+            background: var(--bg-mint); border-radius: 30px; transition: 0.3s;
+        }
+        .nav-links a:hover { background: var(--accent-green); color: white; }
+
+        .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 30px; margin-top: 20px;}
+
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; font-size: 14px; }
         .form-group input, .form-group textarea {
-            width: 100%; padding: 14px; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px;
-            box-sizing: border-box; font-family: inherit; font-size: 15px; background: rgba(255,255,255,0.9);
-            transition: 0.2s;
+            width: 100%; padding: 15px; border: 1px solid #c0d1bc; border-radius: 8px;
+            font-family: inherit; font-size: 15px; background: #ffffff; box-sizing: border-box; transition: 0.3s;
         }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(61, 122, 66, 0.15);
+        }
+
         .btn-simpan {
-            width: 100%; padding: 16px; background: #007aff; color: white; border: none;
-            border-radius: 14px; font-size: 17px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px;
+            width: 100%; padding: 18px; background-color: var(--accent-green); color: white; border: none;
+            border-radius: 10px; font-size: 16px; font-weight: 700; letter-spacing: 1px;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; margin-top: 20px;
         }
-        .btn-simpan:hover { background: #005bb5; }
-        .info-gejala { font-size: 13px; color: #86868b; margin-top: 10px; line-height: 1.5; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 12px; max-height: 150px; overflow-y: auto;}
+        .btn-simpan:hover { background-color: var(--text-dark); box-shadow: 0 10px 20px rgba(43, 83, 41, 0.2); }
+        
+        .info-gejala {
+            font-size: 13px; color: var(--text-muted); margin-top: 12px; line-height: 1.6;
+            background: var(--bg-mint); padding: 15px; border-radius: 8px; max-height: 200px; overflow-y: auto;
+        }
+
+        @media (max-width: 900px) {
+            .split-layout { flex-direction: column; height: auto; overflow: visible; }
+            body { overflow: visible; }
+            .left-panel { flex: none; height: 350px; padding: 40px; }
+            .header-content h1 { font-size: 42px; }
+            .right-panel { padding: 30px; height: auto; overflow: visible; }
+            .nav-links { position: relative; top: 0; right: 0; margin-bottom: 20px; text-align: right;}
+        }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="nav-links"><a href="index.html">← Kembali</a></div>
-    <div class="header">
-        <h1>Akuisisi Pengetahuan</h1>
-        <p style="color: #86868b; font-size: 15px; margin-top: 5px;">Tambah Aturan Diagnosis</p>
+<div class="split-layout">
+    <div class="left-panel">
+        <div class="header-content">
+            <h1>Akuisisi<br>Data Pakar</h1>
+            <p>Fasilitas administrasi untuk memperbarui basis pengetahuan (knowledge base) dan logika inferensi sistem.</p>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>Kode Penyakit Baru (Misal: P11)</label>
-        <input type="text" id="input-kode" placeholder="Kode unik...">
+    <div class="right-panel">
+        <div class="nav-links"><a href="#" onclick="logout()">Logout ➔</a></div>
+        
+        <h2 class="form-title">Tambah Aturan Baru</h2>
+
+        <div class="form-group">
+            <label>Kode Penyakit Baru (Misal: P11)</label>
+            <input type="text" id="input-kode" placeholder="Masukkan kode unik">
+        </div>
+        <div class="form-group">
+            <label>Nama Penyakit / Hama</label>
+            <input type="text" id="input-nama" placeholder="Tuliskan nama hama/penyakit">
+        </div>
+        <div class="form-group">
+            <label>Gejala Terkait (Pisahkan dengan koma: G01, G05)</label>
+            <input type="text" id="input-gejala" placeholder="Contoh: G01, G05">
+            <div class="info-gejala" id="list-gejala-pakar"></div>
+        </div>
+        <div class="form-group">
+            <label>Rekomendasi Penanganan</label>
+            <textarea id="input-rekomendasi" rows="4" placeholder="Tuliskan panduan penanganan yang disarankan pakar"></textarea>
+        </div>
+        
+        <button class="btn-simpan" onclick="tambahPenyakitBaru()">Simpan ke Sistem</button>
     </div>
-    <div class="form-group">
-        <label>Nama Penyakit</label>
-        <input type="text" id="input-nama" placeholder="Masukkan nama...">
-    </div>
-    <div class="form-group">
-        <label>Gejala Terkait (Pisahkan koma: G01, G03)</label>
-        <input type="text" id="input-gejala" placeholder="Contoh: G01, G05">
-        <div class="info-gejala" id="list-gejala-pakar"></div>
-    </div>
-    <div class="form-group">
-        <label>Rekomendasi Penanganan</label>
-        <textarea id="input-rekomendasi" rows="3" placeholder="Saran tindakan..."></textarea>
-    </div>
-    
-    <button class="btn-simpan" onclick="tambahPenyakitBaru()">Simpan Data</button>
 </div>
 
 <script>
     if (!localStorage.getItem('agroDataV3')) window.location.href = "index.html";
     const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV3'));
 
-    let infoText = "";
+    let infoText = "<strong style='color:#2b5329; display:block; margin-bottom:5px;'>Kamus Kode Gejala (Scroll untuk melihat semua):</strong>";
     for (let k in knowledgeBase.kategoriGejala) {
-        infoText += `<strong style="color:#1d1d1f; display:block; margin-top:6px;">${k}</strong>`;
         for (let [kode, deskripsi] of Object.entries(knowledgeBase.kategoriGejala[k])) {
-            infoText += `${kode} - ${deskripsi}<br>`;
+            infoText += `<strong>[${kode}]</strong> ${deskripsi}<br>`;
         }
     }
     document.getElementById("list-gejala-pakar").innerHTML = infoText;
@@ -97,18 +151,34 @@
         const gejalaRaw = document.getElementById("input-gejala").value.toUpperCase();
         const rekomendasi = document.getElementById("input-rekomendasi").value.trim();
 
-        if (!kode || !nama || !gejalaRaw || !rekomendasi) return alert("Lengkapi semua bidang!");
+        if (!kode || !nama || !gejalaRaw || !rekomendasi) return alert("Mohon lengkapi semua isian formulir.");
 
         const flatKeys = getFlatGejalaKeys();
         const gejalaArray = gejalaRaw.split(",").map(g => g.trim()).filter(g => flatKeys.includes(g));
-        if (gejalaArray.length === 0) return alert("Kode gejala tidak valid.");
+        if (gejalaArray.length === 0) return alert("Kode gejala tidak valid. Cek kembali kamus kode di bawah form.");
 
         knowledgeBase.penyakit[kode] = { nama, gejalaTerkait: gejalaArray, rekomendasi };
         localStorage.setItem('agroDataV3', JSON.stringify(knowledgeBase));
         
-        alert(`Disimpan!`);
+        alert(`Aturan diagnosis untuk ${nama} berhasil ditambahkan!`);
         window.location.href = "index.html"; 
     }
+    // CEK SESI LOGIN (Penjaga Keamanan)
+    if (sessionStorage.getItem("isLoggedIn") !== "true") {
+        alert("Akses Ilegal! Anda harus login terlebih dahulu.");
+        window.location.href = "login.html";
+    }
+
+    // FUNGSI LOGOUT
+    function logout() {
+        sessionStorage.removeItem("isLoggedIn");
+        alert("Anda berhasil keluar dari sesi pakar.");
+        window.location.href = "index.html";
+    }
+
+    // ... (biarkan sisa kode di bawahnya seperti biasa)
+    if (!localStorage.getItem('agroDataV3')) window.location.href = "index.html";
+    // ...
 </script>
 </body>
 </html>
