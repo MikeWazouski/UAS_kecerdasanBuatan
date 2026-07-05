@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroExpert | Layanan Komplain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-mint: #dcecd5; --bg-white: #f9fcf7; --text-dark: #2b5329; --text-muted: #5a7a58; --accent-green: #3d7a42; }
+        body { font-family: 'Lato', sans-serif; margin: 0; padding: 0; background-color: var(--bg-white); color: var(--text-dark); overflow: hidden; }
+        
+        .top-navbar { display: flex; justify-content: space-between; align-items: center; height: 70px; background-color: var(--bg-white); padding: 0 40px; box-shadow: 0 2px 15px rgba(43, 83, 41, 0.08); box-sizing: border-box; position: relative; z-index: 10; }
+        .logo-area { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--accent-green); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .main-menu { display: flex; gap: 30px; align-items: center; }
+        .main-menu a {
+            position: relative;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            padding-bottom: 6px;
+        }
+        
+        /* Efek garis bawah (underline) animasi */
+        .main-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-green);
+            transition: width 0.3s ease;
+        }
+
+        /* Warna berubah saat di-hover atau sedang aktif */
+        .main-menu a:hover, .main-menu a.active {
+            color: var(--accent-green);
+        }
+
+        /* Garis bawah memanjang saat di-hover atau sedang aktif */
+        .main-menu a:hover::after, .main-menu a.active::after {
+            width: 100%;
+        }
+
+        .split-layout { display: flex; height: calc(100vh - 70px); width: 100vw; }
+        
+        .left-panel {
+            flex: 0 0 40%; position: relative;
+            background: url('https://images.pexels.com/photos/3201763/pexels-photo-3201763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center;
+            background-size: cover; display: flex; flex-direction: column; justify-content: center;
+            padding: 60px; color: white; box-sizing: border-box;
+        }
+        .left-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.6) 100%); z-index: 1; }
+        .header-content { position: relative; z-index: 2; }
+        .header-content h1 { font-family: 'Playfair Display', serif; font-size: 56px; margin: 0 0 20px 0; line-height: 1.1; }
+        .header-content p { font-size: 17px; line-height: 1.6; margin: 0 0 40px 0; opacity: 0.9; max-width: 400px; }
+
+        .right-panel { flex: 1; background-color: var(--bg-white); padding: 50px 80px; overflow-y: auto; box-sizing: border-box; position: relative; }
+        
+        .content-wrapper { max-width: 600px; margin-top: 10px; }
+        .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 10px; color: var(--text-dark); margin-top: 0; }
+        .form-subtitle { color: var(--text-muted); font-size: 15px; margin-bottom: 30px; line-height: 1.5; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 14px; color: var(--text-dark); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 14px; border: 1px solid #c0d1bc; border-radius: 8px;
+            font-family: inherit; font-size: 15px; background: #ffffff; box-sizing: border-box; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(61, 122, 66, 0.15); }
+        
+        .btn-submit {
+            width: 100%; padding: 18px; background-color: var(--accent-green); color: white; border: none;
+            border-radius: 10px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase; margin-top: 15px;
+        }
+        .btn-submit:hover { background-color: var(--text-dark); box-shadow: 0 10px 20px rgba(43, 83, 41, 0.2); }
+        .btn-submit:disabled { background-color: #a3c4a6; cursor: not-allowed; box-shadow: none;}
+
+        .success-msg { display: none; margin-top: 25px; padding: 20px; background-color: var(--bg-mint); border-radius: 8px; border-left: 5px solid var(--accent-green); font-weight: bold; color: var(--text-dark);}
+
+        @media (max-width: 900px) {
+            .top-navbar { flex-direction: column; height: auto; gap: 15px; padding: 20px; position: static; }
+            .split-layout { flex-direction: column; height: auto; overflow: visible; }
+            body { overflow: visible; }
+            .left-panel { flex: none; height: 300px; padding: 40px; }
+            .header-content h1 { font-size: 42px; }
+            .right-panel { padding: 40px 30px; height: auto; overflow: visible; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="top-navbar">
+    <a href="index.html" class="logo-area">
+        <span style="font-size: 32px;">🌾</span> AgroExpert
+    </a>
+    <nav class="main-menu">
+        <a href="index.html">Konsultasi</a>
+        <a href="library.html">Perpustakaan</a>
+        <a href="tentang.html">Tentang Aplikasi</a>
+        <a href="komplain.html" class="active" style="color: var(--accent-green);">Komplain</a>
+    </nav>
+</header>
+
+<div class="split-layout">
+    <div class="left-panel">
+        <div class="header-content">
+            <h1>Layanan<br>Pengguna</h1>
+            <p>Kami terus berkomitmen meningkatkan kualitas sistem. Laporkan *bug*, data penyakit yang tidak valid, atau kendala antarmuka di sini.</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="content-wrapper">
+            <h2 class="form-title">Kirimkan Umpan Balik</h2>
+            <p class="form-subtitle">Laporan Anda akan langsung diteruskan ke tim pengembang (Administrator Sistem).</p>
+
+            <form id="komplainForm" onsubmit="kirimKomplain(event)">
+                <div class="form-group">
+                    <label>Nama Lengkap / Instansi</label>
+                    <input type="text" id="nama" placeholder="Contoh: Budi Santoso (Kelompok Tani Harapan)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Alamat Email</label>
+                    <input type="email" id="email" placeholder="Contoh: budi@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Kategori Masalah</label>
+                    <select id="kategori" required>
+                        <option value="" disabled selected>Pilih jenis komplain...</option>
+                        <option value="bug">Bug Sistem / Kesalahan Aplikasi (Error)</option>
+                        <option value="data">Ketidakakuratan Data Pakar / Diagnosis</option>
+                        <option value="ui">Masalah Tampilan Visual (UI/UX)</option>
+                        <option value="lainnya">Saran Pengembangan / Lainnya</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Deskripsi Kendala</label>
+                    <textarea id="pesan" rows="4" placeholder="Jelaskan secara detail masalah yang Anda temukan saat menggunakan AgroExpert..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btn-kirim">Kirim Laporan</button>
+            </form>
+
+            <div class="success-msg" id="pesan-sukses">
+                ✅ Terima kasih! Tiket laporan Anda telah masuk ke database pengembang. Kami akan segera mengevaluasi kendala tersebut.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function kirimKomplain(event) {
+        event.preventDefault(); // Mencegah reload halaman
+        
+        const btn = document.getElementById("btn-kirim");
+        const successMsg = document.getElementById("pesan-sukses");
+        
+        // Animasi loading buatan
+        btn.disabled = true;
+        btn.innerText = "Mengirim Data...";
+
+        setTimeout(() => {
+            // Setelah 1.5 detik, tampilkan pesan sukses
+            successMsg.style.display = "block";
+            btn.innerText = "Kirim Laporan Baru";
+            btn.disabled = false;
+            
+            // Reset form
+            document.getElementById("komplainForm").reset();
+            
+            // Hilangkan pesan sukses setelah 5 detik
+            setTimeout(() => {
+                successMsg.style.display = "none";
+            }, 5000);
+
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>

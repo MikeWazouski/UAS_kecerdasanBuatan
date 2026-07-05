@@ -7,53 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-mint: #dcecd5;
-            --bg-white: #f9fcf7;
-            --text-dark: #2b5329;
-            --text-muted: #5a7a58;
-            --accent-green: #3d7a42;
+            --bg-mint: #dcecd5; --bg-white: #f9fcf7; --text-dark: #2b5329;
+            --text-muted: #5a7a58; --accent-green: #3d7a42;
         }
+        body { font-family: 'Lato', sans-serif; margin: 0; padding: 0; background-color: var(--bg-white); color: var(--text-dark); overflow: hidden; }
         
-        body {
-            font-family: 'Lato', sans-serif;
-            margin: 0; padding: 0;
-            background-color: var(--bg-white);
-            color: var(--text-dark);
-            overflow: hidden; 
-        }
-
         /* HEADER / TOP NAVBAR */
         .top-navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-            background-color: var(--bg-white);
-            padding: 0 40px;
-            box-shadow: 0 2px 15px rgba(43, 83, 41, 0.08);
-            box-sizing: border-box;
-            position: relative;
-            z-index: 10;
+            display: flex; justify-content: space-between; align-items: center; height: 70px;
+            background-color: var(--bg-white); padding: 0 40px; box-shadow: 0 2px 15px rgba(43, 83, 41, 0.08);
+            box-sizing: border-box; position: relative; z-index: 10;
         }
-        
-        .logo-area {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent-green);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .main-menu {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-        
+        .logo-area { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--accent-green); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .main-menu { display: flex; gap: 30px; align-items: center; }
         .main-menu a {
+            position: relative;
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 700;
@@ -61,110 +29,91 @@
             letter-spacing: 0.5px;
             transition: color 0.3s ease;
             text-transform: uppercase;
+            padding-bottom: 6px;
         }
         
-        .main-menu a:hover {
+        /* Efek garis bawah (underline) animasi */
+        .main-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-green);
+            transition: width 0.3s ease;
+        }
+
+        /* Warna berubah saat di-hover atau sedang aktif */
+        .main-menu a:hover, .main-menu a.active {
             color: var(--accent-green);
         }
 
-        /* LAYOUT SPLIT SCREEN */
-        .split-layout { 
-            display: flex; 
-            /* Mengurangi tinggi total viewport dengan tinggi header (70px) */
-            height: calc(100vh - 70px); 
-            width: 100vw; 
+        /* Garis bawah memanjang saat di-hover atau sedang aktif */
+        .main-menu a:hover::after, .main-menu a.active::after {
+            width: 100%;
         }
 
-        /* KOLOM KIRI */
+        /* SPLIT LAYOUT (Disesuaikan dengan Header) */
+        .split-layout { display: flex; height: calc(100vh - 70px); width: 100vw; }
+        
         .left-panel {
             flex: 0 0 45%; position: relative;
             background: url('https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
             background-size: cover; display: flex; flex-direction: column; justify-content: center;
             padding: 60px; color: white; box-sizing: border-box;
         }
-        .left-panel::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.6) 100%); z-index: 1;
-        }
+        .left-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.6) 100%); z-index: 1; }
         .header-content { position: relative; z-index: 2; }
         .header-content h1 { font-family: 'Playfair Display', serif; font-size: 64px; margin: 0 0 20px 0; line-height: 1.1; }
         .header-content p { font-size: 18px; line-height: 1.6; margin: 0 0 40px 0; opacity: 0.9; max-width: 400px; }
 
-        /* KOLOM KANAN */
-        .right-panel {
-            flex: 1; background-color: var(--bg-white); padding: 50px 80px;
-            overflow-y: auto; box-sizing: border-box; position: relative; scroll-behavior: smooth;
-        }
+        .right-panel { flex: 1; background-color: var(--bg-white); padding: 50px 80px; overflow-y: auto; box-sizing: border-box; position: relative; scroll-behavior: smooth;}
         .nav-links { position: absolute; top: 30px; right: 40px; }
-        .nav-links a {
-            text-decoration: none; color: var(--accent-green); font-weight: 700;
-            font-size: 13px; letter-spacing: 1px; padding: 10px 20px;
-            background: var(--bg-mint); border-radius: 30px; transition: 0.3s;
-        }
+        .nav-links a { text-decoration: none; color: var(--accent-green); font-weight: 700; font-size: 13px; letter-spacing: 1px; padding: 10px 20px; background: var(--bg-mint); border-radius: 30px; transition: 0.3s; }
         .nav-links a:hover { background: var(--accent-green); color: white; }
 
         .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 25px; color: var(--text-dark); margin-top: 20px; }
         .kategori-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text-dark); margin: 25px 0 15px 0; border-bottom: 2px solid var(--bg-mint); padding-bottom: 10px; }
-        
         .gejala-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .gejala-item {
-            display: flex; align-items: flex-start; padding: 16px; background: #ffffff;
-            border-radius: 10px; cursor: pointer; transition: 0.3s ease; border: 1px solid #e8f0e6;
-        }
+        .gejala-item { display: flex; align-items: flex-start; padding: 16px; background: #ffffff; border-radius: 10px; cursor: pointer; transition: 0.3s ease; border: 1px solid #e8f0e6; }
         .gejala-item:hover { background: var(--bg-mint); transform: translateX(5px); }
         .gejala-item input { accent-color: var(--accent-green); width: 18px; height: 18px; margin-right: 15px; margin-top: 2px; cursor: pointer; }
         .gejala-teks { font-size: 15px; line-height: 1.5; }
         .kode-gejala { font-weight: 700; color: var(--accent-green); margin-right: 5px; }
 
-        /* GRUP TOMBOL AKSI */
         .action-buttons { display: flex; gap: 15px; margin-top: 40px; }
-        .btn-diagnosa {
-            flex: 2; padding: 18px; background-color: var(--accent-green); color: white; border: none;
-            border-radius: 10px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
-            transition: 0.3s; text-transform: uppercase;
-        }
+        .btn-diagnosa { flex: 2; padding: 18px; background-color: var(--accent-green); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
         .btn-diagnosa:hover { background-color: var(--text-dark); box-shadow: 0 10px 20px rgba(43, 83, 41, 0.2); }
-        
-        .btn-reset {
-            flex: 1; padding: 18px; background-color: transparent; color: var(--text-dark); border: 2px solid #c0d1bc;
-            border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
-            transition: 0.3s; text-transform: uppercase;
-        }
+        .btn-reset { flex: 1; padding: 18px; background-color: transparent; color: var(--text-dark); border: 2px solid #c0d1bc; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
         .btn-reset:hover { background-color: #e8f0e6; border-color: var(--text-muted); }
 
-        /* KOTAK HASIL & ANIMASI LINGKARAN */
-        .result-box {
-            margin-top: 40px; padding: 30px; background-color: var(--bg-mint);
-            border-radius: 12px; display: none; animation: fadeIn 0.6s ease-out; margin-bottom: 50px;
-        }
-        
-        .result-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px dashed #c0d1bc; padding-bottom: 25px; margin-bottom: 25px;
-        }
+        .result-box { margin-top: 40px; padding: 30px; background-color: var(--bg-mint); border-radius: 12px; display: none; animation: fadeIn 0.6s ease-out; margin-bottom: 50px; }
+        .result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #c0d1bc; padding-bottom: 25px; margin-bottom: 25px; }
         .result-title-area h3 { font-family: 'Playfair Display', serif; font-size: 34px; margin: 0 0 5px 0; color: var(--text-dark); }
-        .result-title-area p { margin: 0; color: var(--text-muted); font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+        .result-title-area p { margin: 0; color: var(--text-muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
         
-        /* CSS Animasi SVG Circle */
         .circular-progress { width: 85px; height: 85px; }
         .circular-chart { display: block; margin: 0 auto; max-width: 100%; max-height: 250px; }
         .circle-bg { fill: none; stroke: rgba(61, 122, 66, 0.15); stroke-width: 3.8; }
-        .circle-anim { 
-            fill: none; stroke-width: 3.5; stroke-linecap: round; 
-            stroke: var(--accent-green); transition: stroke-dasharray 1.2s cubic-bezier(0.1, 0.7, 0.1, 1); 
-        }
+        .circle-anim { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke: var(--accent-green); transition: stroke-dasharray 1.2s cubic-bezier(0.1, 0.7, 0.1, 1); }
         .percentage { fill: var(--text-dark); font-family: 'Lato', sans-serif; font-size: 8px; font-weight: bold; text-anchor: middle; }
 
-        .result-box p.rekomendasi { font-size: 16px; line-height: 1.6; margin: 0; }
-        .explanation { margin-top: 25px; padding-top: 20px; border-top: 1px solid #c0d1bc; font-size: 14px; color: var(--text-muted); }
+        .rekomendasi { font-size: 16px; line-height: 1.6; margin: 0 0 20px 0; }
+        
+        .extra-info-box { background: rgba(255,255,255,0.6); padding: 15px 20px; border-radius: 8px; border-left: 4px solid var(--accent-green); margin-bottom: 20px;}
+        .extra-info-box p { margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: var(--text-dark);}
+        .extra-info-box p:last-child { margin-bottom: 0; }
+        .info-title { font-weight: bold; color: var(--accent-green); margin-right: 5px;}
+
+        .explanation { padding-top: 20px; border-top: 1px solid #c0d1bc; font-size: 14px; color: var(--text-muted); }
         .explanation ul { padding-left: 20px; margin-top: 10px; }
-        .explanation li { margin-bottom: 8px; }
+        .explanation li { margin-bottom: 8px; line-height: 1.4;}
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* RESPONSIVE MOBILE */
         @media (max-width: 900px) {
-            .top-navbar { flex-direction: column; height: auto; gap: 15px; padding: 20px; }
+            .top-navbar { flex-direction: column; height: auto; gap: 15px; padding: 20px; position: static; }
             .split-layout { flex-direction: column; height: auto; overflow: visible; }
             body { overflow: visible; }
             .left-panel { flex: none; height: 350px; padding: 40px; }
@@ -181,12 +130,13 @@
 <!-- Header Utama -->
 <header class="top-navbar">
     <a href="index.html" class="logo-area">
-        <span style="font-size: 32px;">🥀</span> AgroExpert
+        <span style="font-size: 32px;">🌾</span> Kereta Agro Ngawi
     </a>
     <nav class="main-menu">
+        <a href="index.html" class="active" style="color: var(--accent-green);">Konsultasi</a>
         <a href="library.html">Perpustakaan</a>
-        <a href="#">Tentang Aplikasi</a>
-        <a href="#">Komplain</a>
+        <a href="tentang.html">Tentang Aplikasi</a>
+        <a href="komplain.html">Komplain</a>
     </nav>
 </header>
 
@@ -202,9 +152,7 @@
         <div class="nav-links"><a href="login.html">Login Pakar ➔</a></div>
         
         <h2 class="form-title">Konsultasi Gejala</h2>
-        <div id="gejala-container">
-            <!-- Dirender oleh JS -->
-        </div>
+        <div id="gejala-container"></div>
 
         <div class="action-buttons">
             <button class="btn-diagnosa" onclick="diagnosa()">Mulai Analisis</button>
@@ -214,10 +162,9 @@
         <div id="hasil-diagnosis" class="result-box">
             <div class="result-header">
                 <div class="result-title-area">
-                    <p id="label-akurasi">Diagnosis Sistem</p>
+                    <p id="label-akurasi">TINGKAT KECOCOKAN</p>
                     <h3 id="nama-penyakit">Nama Penyakit</h3>
                 </div>
-                <!-- Animasi Lingkaran Akurasi -->
                 <div class="circular-progress">
                     <svg viewBox="0 0 36 36" class="circular-chart">
                         <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
@@ -228,84 +175,68 @@
             </div>
             
             <p class="rekomendasi" id="rekomendasi-penyakit"></p>
+            
+            <div class="extra-info-box" id="extra-info-box">
+                <p><span class="info-title">Sebab Kemunculan:</span> <span id="sebab-teks"></span></p>
+                <p><span class="info-title">Akibat pada Kualitas Beras:</span> <span id="akibat-teks"></span></p>
+            </div>
+
             <div class="explanation" id="penjelasan-logika"></div>
         </div>
     </div>
 </div>
 
 <script>
+    // DATA V4
     const defaultData = {
         kategoriGejala: {
             "Gejala pada Daun": {
-                "G01": "Daun menguning mulai dari ujung hingga ke pangkal",
-                "G02": "Terdapat bercak coklat berbentuk belah ketupat",
-                "G03": "Daun menggulung, melintir, atau mengering",
-                "G04": "Terdapat garis kuning/putih sejajar tulang daun",
-                "G12": "Terdapat bercak oval/bulat coklat dengan tepi kekuningan",
-                "G13": "Daun menggulung menyerupai daun bawang (puru)"
+                "G01": "Daun menguning mulai dari ujung hingga ke pangkal", "G02": "Terdapat bercak coklat berbentuk belah ketupat",
+                "G03": "Daun menggulung, melintir, atau mengering", "G04": "Terdapat garis kuning/putih sejajar tulang daun",
+                "G12": "Terdapat bercak oval/bulat coklat dengan tepi kekuningan", "G13": "Daun menggulung menyerupai daun bawang (puru)"
             },
             "Gejala pada Batang": {
-                "G05": "Tanaman tumbuh kerdil secara tidak normal",
-                "G06": "Batang bawah membusuk, lunak, atau berbau",
-                "G07": "Terdapat jelaga hitam di area pangkal batang",
-                "G08": "Batang mudah tercabut dan titik tumbuh mati",
-                "G14": "Batang terpotong miring seperti bekas gigitan",
-                "G15": "Bibit/tanaman muda terpotong di area tergenang"
+                "G05": "Tanaman tumbuh kerdil secara tidak normal", "G06": "Batang bawah membusuk, lunak, atau berbau",
+                "G07": "Terdapat jelaga hitam di area pangkal batang", "G08": "Batang mudah tercabut dan titik tumbuh mati",
+                "G14": "Batang terpotong miring seperti bekas gigitan", "G15": "Bibit/tanaman muda terpotong di area tergenang"
             },
             "Gejala Lingkungan & Bulir": {
-                "G09": "Malai padi hampa, berwarna putih, dan tegak lurus",
-                "G10": "Bulir padi kehitaman atau terdapat bercak coklat",
-                "G11": "Akar membusuk dan berwarna kecoklatan/hitam",
-                "G16": "Tercium bau menyengat (seperti kepik)",
-                "G17": "Terdapat kumpulan telur merah muda cerah",
-                "G18": "Kerusakan memusat di tengah petak sawah"
+                "G09": "Malai padi hampa, berwarna putih, dan tegak lurus", "G10": "Bulir padi kehitaman atau terdapat bercak coklat",
+                "G11": "Akar membusuk dan berwarna kecoklatan/hitam", "G16": "Tercium bau menyengat (seperti kepik)",
+                "G17": "Terdapat kumpulan telur merah muda cerah", "G18": "Kerusakan memusat di tengah petak sawah"
             }
         },
         penyakit: {
-            "P01": { nama: "Penyakit Blas", gejalaTerkait: ["G01", "G02", "G06"], rekomendasi: "Gunakan fungisida trisiklazol dan rotasi tanaman." },
-            "P02": { nama: "Wereng Coklat", gejalaTerkait: ["G01", "G05", "G07"], rekomendasi: "Gunakan insektisida pimetrozin, keringkan lahan berselang." },
-            "P03": { nama: "Penyakit Tungro", gejalaTerkait: ["G01", "G05", "G03"], rekomendasi: "Cabut tanaman terinfeksi, kendalikan wereng hijau." },
-            "P04": { nama: "Penggerek Batang", gejalaTerkait: ["G08", "G09"], rekomendasi: "Gunakan karbofuran pada pesemaian, atur waktu tanam." },
-            "P05": { nama: "Hawar Daun Bakteri", gejalaTerkait: ["G01", "G04"], rekomendasi: "Gunakan bakterisida, kurangi pupuk Nitrogen." },
-            "P06": { nama: "Hama Tikus", gejalaTerkait: ["G14", "G18"], rekomendasi: "Lakukan gropyokan, gunakan umpan beracun/pengemposan." },
-            "P07": { nama: "Hama Keong Mas", gejalaTerkait: ["G15", "G17"], rekomendasi: "Pungut telur manual, buat parit, pasang saringan air." },
-            "P08": { nama: "Walang Sangit", gejalaTerkait: ["G09", "G10", "G16"], rekomendasi: "Kendalikan gulma, pasang umpan bangkai, semprot fipronil." },
-            "P09": { nama: "Bercak Daun Coklat", gejalaTerkait: ["G11", "G12"], rekomendasi: "Perbaiki kesuburan tanah (Kalium), gunakan mankozeb." },
-            "P10": { nama: "Hama Ganjur", gejalaTerkait: ["G05", "G13"], rekomendasi: "Hindari penanaman lambat, kurangi genangan air." }
+            "P01": { nama: "Penyakit Blas", gejalaTerkait: ["G01", "G02", "G06"], rekomendasi: "Gunakan fungisida trisiklazol dan rotasi tanaman.", sebab: "Kelembaban tinggi, embun tebal, dan penggunaan pupuk Nitrogen yang berlebihan.", akibat: "Menyebabkan beras patah (menir) saat digiling, beras kusam, dan rendemen giling rendah.", gambar: "images/P01.jpg" },
+            "P02": { nama: "Wereng Coklat", gejalaTerkait: ["G01", "G05", "G07"], rekomendasi: "Gunakan insektisida pimetrozin, keringkan lahan berselang.", sebab: "Jarak tanam terlalu rapat, cuaca panas lembab, dan sirkulasi udara buruk.", akibat: "Bulir hampa, gabah ringan, dan warna beras kusam karena nutrisi terhisap hama.", gambar: "images/P02.jpg" },
+            "P03": { nama: "Penyakit Tungro", gejalaTerkait: ["G01", "G05", "G03"], rekomendasi: "Cabut tanaman terinfeksi, kendalikan wereng hijau.", sebab: "Ditularkan oleh vektor hama wereng hijau pada fase pertumbuhan vegetatif.", akibat: "Produksi gabah turun drastis, bulir kosong, beras memiliki bintik kusam.", gambar: "images/P03.jpg" },
+            "P04": { nama: "Penggerek Batang", gejalaTerkait: ["G08", "G09"], rekomendasi: "Gunakan karbofuran pada pesemaian, atur waktu tanam.", sebab: "Pola tanam tidak serempak dan adanya sisa jerami terinfeksi di lahan.", akibat: "Malai hampa (beluk), beras patah, kualitas beras giling sangat buruk dan mudah hancur.", gambar: "images/P04.jpg" },
+            "P05": { nama: "Hawar Daun Bakteri", gejalaTerkait: ["G01", "G04"], rekomendasi: "Gunakan bakterisida, kurangi pupuk Nitrogen.", sebab: "Drainase buruk, curah hujan tinggi yang diikuti angin kencang (badai).", akibat: "Pengisian bulir tidak sempurna, gabah ringan, tipis, dan mudah pecah saat digiling.", gambar: "images/P05.jpg" },
+            "P06": { nama: "Hama Tikus", gejalaTerkait: ["G14", "G18"], rekomendasi: "Lakukan gropyokan, gunakan umpan beracun/pengemposan.", sebab: "Sanitasi lingkungan persawahan yang buruk, dan tidak adanya perburuan massal sebelum tanam.", akibat: "Kehilangan kuantitas panen secara fisik, sisa gabah sering tercemar kotoran dan berbau tikus.", gambar: "images/P06.jpg" },
+            "P07": { nama: "Hama Keong Mas", gejalaTerkait: ["G15", "G17"], rekomendasi: "Pungut telur manual, buat parit, pasang saringan air.", sebab: "Terbawa arus air irigasi, dan sawah terlalu lama tergenang di fase bibit muda.", akibat: "Pertumbuhan padi tidak seragam sehingga memicu gulma; beras sering tercampur biji gulma.", gambar: "images/P07.jpg" },
+            "P08": { nama: "Walang Sangit", gejalaTerkait: ["G09", "G10", "G16"], rekomendasi: "Kendalikan gulma, pasang umpan bangkai, semprot fipronil.", sebab: "Sawah banyak gulma dan fase berbunga tanaman padi yang tidak serempak.", akibat: "Beras berbintik hitam, rasa nasi menjadi pahit/berbau tidak sedap, beras mudah hancur.", gambar: "images/P08.jpg" },
+            "P09": { nama: "Bercak Daun Coklat", gejalaTerkait: ["G11", "G12"], rekomendasi: "Perbaiki kesuburan tanah (Kalium), gunakan mankozeb.", sebab: "Tanah kekurangan unsur hara khususnya Kalium, sering terjadi di lahan gambut atau masam.", akibat: "Gabah kotor berbintik coklat hingga hitam, menurunkan mutu visual dan harga jual beras secara drastis.", gambar: "images/P09.jpg" },
+            "P10": { nama: "Hama Ganjur", gejalaTerkait: ["G05", "G13"], rekomendasi: "Hindari penanaman lambat, kurangi genangan air.", sebab: "Cuaca berawan tebal/hujan rintik berkepanjangan dan waktu tanam yang terlambat.", akibat: "Malai gagal terbentuk sepenuhnya, menyebabkan kehilangan hasil panen gabah secara total pada tanaman terinfeksi.", gambar: "images/P10.jpg" }
         }
     };
 
-    if (!localStorage.getItem('agroDataV3')) {
-        localStorage.setItem('agroDataV3', JSON.stringify(defaultData));
+    if (!localStorage.getItem('agroDataV4')) {
+        localStorage.setItem('agroDataV4', JSON.stringify(defaultData));
     }
-    const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV3'));
+    const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV4'));
 
     function getFlatGejala() {
-        let flat = {};
-        for (let k in knowledgeBase.kategoriGejala) Object.assign(flat, knowledgeBase.kategoriGejala[k]);
-        return flat;
+        let flat = {}; for (let k in knowledgeBase.kategoriGejala) Object.assign(flat, knowledgeBase.kategoriGejala[k]); return flat;
     }
 
     function renderGejala() {
-        const container = document.getElementById("gejala-container");
-        container.innerHTML = "";
-        
+        const container = document.getElementById("gejala-container"); container.innerHTML = "";
         for (const [kategori, gejalaObj] of Object.entries(knowledgeBase.kategoriGejala)) {
-            const title = document.createElement("div");
-            title.className = "kategori-title";
-            title.innerText = kategori;
-            container.appendChild(title);
-
-            const grid = document.createElement("div");
-            grid.className = "gejala-grid";
-
+            const title = document.createElement("div"); title.className = "kategori-title"; title.innerText = kategori; container.appendChild(title);
+            const grid = document.createElement("div"); grid.className = "gejala-grid";
             for (const [kode, deskripsi] of Object.entries(gejalaObj)) {
-                const label = document.createElement("label");
-                label.className = "gejala-item";
-                label.innerHTML = `
-                    <input type="checkbox" value="${kode}"> 
-                    <span class="gejala-teks"><span class="kode-gejala">${kode}</span> ${deskripsi}</span>
-                `;
+                const label = document.createElement("label"); label.className = "gejala-item";
+                label.innerHTML = `<input type="checkbox" value="${kode}"> <span class="gejala-teks"><span class="kode-gejala">${kode}</span> ${deskripsi}</span>`;
                 grid.appendChild(label);
             }
             container.appendChild(grid);
@@ -313,13 +244,10 @@
     }
 
     function resetForm() {
-        const checkboxes = document.querySelectorAll('.gejala-item input[type="checkbox"]');
-        checkboxes.forEach(cb => cb.checked = false);
-        
+        document.querySelectorAll('.gejala-item input[type="checkbox"]').forEach(cb => cb.checked = false);
         document.getElementById("hasil-diagnosis").style.display = "none";
         document.getElementById("circle-bar").style.strokeDasharray = "0, 100";
         document.getElementById("circle-text").textContent = "0%";
-        
         document.getElementById("scroll-area").scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -332,19 +260,13 @@
         const circleBar = document.getElementById("circle-bar");
         const circleText = document.getElementById("circle-text");
 
-        if (gejalaPilihan.length === 0) {
-            alert("Mohon pilih minimal satu gejala terlebih dahulu.");
-            return;
-        }
+        if (gejalaPilihan.length === 0) return alert("Mohon pilih minimal satu gejala terlebih dahulu.");
 
         let kandidatTerbaik = null; let skorTertinggi = 0; let gejalaCocokTerbaik = [];
-
         for (const [kodeP, dataP] of Object.entries(knowledgeBase.penyakit)) {
             const irisanGejala = dataP.gejalaTerkait.filter(g => gejalaPilihan.includes(g));
             const skor = (irisanGejala.length / dataP.gejalaTerkait.length) * 100;
-            if (skor > skorTertinggi) {
-                skorTertinggi = skor; kandidatTerbaik = dataP; gejalaCocokTerbaik = irisanGejala;
-            }
+            if (skor > skorTertinggi) { skorTertinggi = skor; kandidatTerbaik = dataP; gejalaCocokTerbaik = irisanGejala; }
         }
 
         resultBox.style.display = "block";
@@ -352,8 +274,12 @@
 
         if (kandidatTerbaik && skorTertinggi >= 50) {
             document.getElementById("nama-penyakit").innerText = kandidatTerbaik.nama;
-            document.getElementById("label-akurasi").innerText = "Tingkat Kecocokan";
+            document.getElementById("label-akurasi").innerText = "TINGKAT KECOCOKAN";
             document.getElementById("rekomendasi-penyakit").innerHTML = `<strong>Rekomendasi Alami/Medis:</strong><br>${kandidatTerbaik.rekomendasi}`;
+            
+            document.getElementById("extra-info-box").style.display = "block";
+            document.getElementById("sebab-teks").innerText = kandidatTerbaik.sebab || "Data belum tersedia.";
+            document.getElementById("akibat-teks").innerText = kandidatTerbaik.akibat || "Data belum tersedia.";
             
             let penjelasanHtml = `<strong>Analisis Sistem Pakar:</strong><br>Membutuhkan ${kandidatTerbaik.gejalaTerkait.length} indikator utama:<ul>`;
             kandidatTerbaik.gejalaTerkait.forEach(kodeG => {
@@ -369,8 +295,9 @@
 
         } else {
             document.getElementById("nama-penyakit").innerText = "Tidak Spesifik";
-            document.getElementById("label-akurasi").innerText = "Analisis Gagal";
+            document.getElementById("label-akurasi").innerText = "ANALISIS GAGAL";
             document.getElementById("rekomendasi-penyakit").innerText = "Gejala yang dimasukkan terlalu acak. Disarankan berkonsultasi langsung dengan penyuluh pertanian.";
+            document.getElementById("extra-info-box").style.display = "none";
             document.getElementById("penjelasan-logika").innerHTML = "";
             
             setTimeout(() => {
@@ -379,9 +306,7 @@
             }, 100);
         }
 
-        setTimeout(() => {
-            resultBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }, 50);
+        setTimeout(() => { resultBox.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 50);
     }
     
     window.onload = renderGejala;

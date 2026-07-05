@@ -6,87 +6,47 @@
     <title>AgroExpert | Panel Akuisisi</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-mint: #dcecd5;
-            --bg-white: #f9fcf7;
-            --text-dark: #2b5329;
-            --text-muted: #5a7a58;
-            --accent-green: #3d7a42;
-        }
-        
-        body {
-            font-family: 'Lato', sans-serif;
-            margin: 0; padding: 0;
-            background-color: var(--bg-white);
-            color: var(--text-dark);
-            overflow: hidden;
-        }
-
+        :root { --bg-mint: #dcecd5; --bg-white: #f9fcf7; --text-dark: #2b5329; --text-muted: #5a7a58; --accent-green: #3d7a42; }
+        body { font-family: 'Lato', sans-serif; margin: 0; padding: 0; background-color: var(--bg-white); color: var(--text-dark); overflow: hidden; }
         .split-layout { display: flex; height: 100vh; width: 100vw; }
-
         .left-panel {
-            flex: 0 0 45%;
-            position: relative;
-            /* Menggunakan gambar yang agak berbeda untuk halaman pakar */
-            background: url('https://images.unsplash.com/photo-1592982537447-6f2334f487cb?q=80&w=2000&auto=format&fit=crop') no-repeat center center;
-            background-size: cover;
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 60px; color: white; box-sizing: border-box;
+            flex: 0 0 35%; position: relative; background: url('https://images.unsplash.com/photo-1592982537447-6f2334f487cb?q=80&w=2000&auto=format&fit=crop') no-repeat center center;
+            background-size: cover; display: flex; flex-direction: column; justify-content: center; padding: 60px; color: white; box-sizing: border-box;
         }
-        
-        .left-panel::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.6) 100%); z-index: 1;
-        }
-
+        .left-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.6) 100%); z-index: 1; }
         .header-content { position: relative; z-index: 2; }
-        .header-content h1 { font-family: 'Playfair Display', serif; font-size: 64px; margin: 0 0 20px 0; line-height: 1.1; }
-        .header-content p { font-size: 18px; line-height: 1.6; margin: 0; opacity: 0.9; max-width: 400px; }
-
-        .right-panel {
-            flex: 1; background-color: var(--bg-white); padding: 60px 80px;
-            overflow-y: auto; box-sizing: border-box; position: relative;
-        }
-
+        .header-content h1 { font-family: 'Playfair Display', serif; font-size: 52px; margin: 0 0 20px 0; line-height: 1.1; }
+        .header-content p { font-size: 16px; line-height: 1.6; margin: 0; opacity: 0.9; max-width: 400px; }
+        .right-panel { flex: 1; background-color: var(--bg-white); padding: 40px 60px; overflow-y: auto; box-sizing: border-box; position: relative; }
         .nav-links { position: absolute; top: 30px; right: 40px; }
-        .nav-links a {
-            text-decoration: none; color: var(--accent-green); font-weight: 700;
-            font-size: 14px; letter-spacing: 1px; padding: 10px 20px;
-            background: var(--bg-mint); border-radius: 30px; transition: 0.3s;
-        }
+        .nav-links a { text-decoration: none; color: var(--accent-green); font-weight: 700; font-size: 13px; letter-spacing: 1px; padding: 10px 20px; background: var(--bg-mint); border-radius: 30px; transition: 0.3s; }
         .nav-links a:hover { background: var(--accent-green); color: white; }
-
-        .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 30px; margin-top: 20px;}
-
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; font-size: 14px; }
+        .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 25px; margin-top: 15px;}
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 13px; }
         .form-group input, .form-group textarea {
-            width: 100%; padding: 15px; border: 1px solid #c0d1bc; border-radius: 8px;
-            font-family: inherit; font-size: 15px; background: #ffffff; box-sizing: border-box; transition: 0.3s;
+            width: 100%; padding: 12px; border: 1px solid #c0d1bc; border-radius: 8px;
+            font-family: inherit; font-size: 14px; background: #ffffff; box-sizing: border-box; transition: 0.3s;
         }
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none; border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(61, 122, 66, 0.15);
-        }
-
-        .btn-simpan {
-            width: 100%; padding: 18px; background-color: var(--accent-green); color: white; border: none;
-            border-radius: 10px; font-size: 16px; font-weight: 700; letter-spacing: 1px;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; margin-top: 20px;
-        }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(61, 122, 66, 0.15); }
+        .btn-simpan { width: 100%; padding: 16px; background-color: var(--accent-green); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.3s; text-transform: uppercase; margin-top: 10px; }
         .btn-simpan:hover { background-color: var(--text-dark); box-shadow: 0 10px 20px rgba(43, 83, 41, 0.2); }
         
-        .info-gejala {
-            font-size: 13px; color: var(--text-muted); margin-top: 12px; line-height: 1.6;
-            background: var(--bg-mint); padding: 15px; border-radius: 8px; max-height: 200px; overflow-y: auto;
-        }
+        .info-gejala { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; background: var(--bg-mint); padding: 12px; border-radius: 8px; max-height: 120px; overflow-y: auto; }
+        
+        /* Layout kolom form sejajar */
+        .form-row { display: flex; gap: 20px; }
+        .form-row .form-group { flex: 1; }
 
         @media (max-width: 900px) {
             .split-layout { flex-direction: column; height: auto; overflow: visible; }
             body { overflow: visible; }
-            .left-panel { flex: none; height: 350px; padding: 40px; }
+            .left-panel { flex: none; height: 250px; padding: 40px; }
             .header-content h1 { font-size: 42px; }
             .right-panel { padding: 30px; height: auto; overflow: visible; }
             .nav-links { position: relative; top: 0; right: 0; margin-bottom: 20px; text-align: right;}
+            .form-row { flex-direction: column; gap: 0;}
         }
     </style>
 </head>
@@ -96,31 +56,51 @@
     <div class="left-panel">
         <div class="header-content">
             <h1>Akuisisi<br>Data Pakar</h1>
-            <p>Fasilitas administrasi untuk memperbarui basis pengetahuan (knowledge base) dan logika inferensi sistem.</p>
+            <p>Fasilitas administrasi untuk memperbarui basis pengetahuan (knowledge base) dan logika inferensi sistem secara komprehensif.</p>
         </div>
     </div>
 
     <div class="right-panel">
-        <div class="nav-links"><a href="#" onclick="logout()">Logout ➔</a></div>
+        <div class="nav-links"><a href="#" onclick="logout()">Keluar (Logout) ➔</a></div>
         
         <h2 class="form-title">Tambah Aturan Baru</h2>
 
-        <div class="form-group">
-            <label>Kode Penyakit Baru (Misal: P11)</label>
-            <input type="text" id="input-kode" placeholder="Masukkan kode unik">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Kode Unik (Misal: P11)</label>
+                <input type="text" id="input-kode" placeholder="Masukkan kode">
+            </div>
+            <div class="form-group">
+                <label>Nama Penyakit / Hama</label>
+                <input type="text" id="input-nama" placeholder="Tuliskan nama hama">
+            </div>
         </div>
+
         <div class="form-group">
-            <label>Nama Penyakit / Hama</label>
-            <input type="text" id="input-nama" placeholder="Tuliskan nama hama/penyakit">
-        </div>
-        <div class="form-group">
-            <label>Gejala Terkait (Pisahkan dengan koma: G01, G05)</label>
+            <label>Gejala Terkait (Pisahkan koma: G01, G05)</label>
             <input type="text" id="input-gejala" placeholder="Contoh: G01, G05">
             <div class="info-gejala" id="list-gejala-pakar"></div>
         </div>
+
+        <!-- KOLOM BARU SESUAI PERMINTAAN -->
         <div class="form-group">
-            <label>Rekomendasi Penanganan</label>
-            <textarea id="input-rekomendasi" rows="4" placeholder="Tuliskan panduan penanganan yang disarankan pakar"></textarea>
+            <label>Penyebab Kemunculan</label>
+            <textarea id="input-sebab" rows="2" placeholder="Jelaskan pemicu atau sebab biologis/lingkungan..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Akibat pada Kualitas Beras/Gabah</label>
+            <textarea id="input-akibat" rows="2" placeholder="Jelaskan dampak kerusakan terhadap hasil panen/beras..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Lokasi/Nama File Gambar (Pastikan ada di folder images)</label>
+            <input type="text" id="input-gambar" placeholder="Contoh: images/P11.jpg">
+        </div>
+
+        <div class="form-group">
+            <label>Rekomendasi Penanganan Medis</label>
+            <textarea id="input-rekomendasi" rows="2" placeholder="Tuliskan panduan penanganan ahli..."></textarea>
         </div>
         
         <button class="btn-simpan" onclick="tambahPenyakitBaru()">Simpan ke Sistem</button>
@@ -128,10 +108,13 @@
 </div>
 
 <script>
-    if (!localStorage.getItem('agroDataV3')) window.location.href = "index.html";
-    const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV3'));
+    if (sessionStorage.getItem("isLoggedIn") !== "true") { alert("Akses Ilegal! Silakan login."); window.location.href = "login.html"; }
+    function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
 
-    let infoText = "<strong style='color:#2b5329; display:block; margin-bottom:5px;'>Kamus Kode Gejala (Scroll untuk melihat semua):</strong>";
+    if (!localStorage.getItem('agroDataV4')) window.location.href = "index.html";
+    const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV4'));
+
+    let infoText = "<strong style='color:#2b5329; display:block; margin-bottom:5px;'>Kamus Kode Gejala (Scroll):</strong>";
     for (let k in knowledgeBase.kategoriGejala) {
         for (let [kode, deskripsi] of Object.entries(knowledgeBase.kategoriGejala[k])) {
             infoText += `<strong>[${kode}]</strong> ${deskripsi}<br>`;
@@ -140,45 +123,39 @@
     document.getElementById("list-gejala-pakar").innerHTML = infoText;
 
     function getFlatGejalaKeys() {
-        let keys = [];
-        for (let k in knowledgeBase.kategoriGejala) keys.push(...Object.keys(knowledgeBase.kategoriGejala[k]));
-        return keys;
+        let keys = []; for (let k in knowledgeBase.kategoriGejala) keys.push(...Object.keys(knowledgeBase.kategoriGejala[k])); return keys;
     }
 
     function tambahPenyakitBaru() {
         const kode = document.getElementById("input-kode").value.trim().toUpperCase();
         const nama = document.getElementById("input-nama").value.trim();
         const gejalaRaw = document.getElementById("input-gejala").value.toUpperCase();
+        const sebab = document.getElementById("input-sebab").value.trim();
+        const akibat = document.getElementById("input-akibat").value.trim();
+        const gambar = document.getElementById("input-gambar").value.trim();
         const rekomendasi = document.getElementById("input-rekomendasi").value.trim();
 
-        if (!kode || !nama || !gejalaRaw || !rekomendasi) return alert("Mohon lengkapi semua isian formulir.");
+        if (!kode || !nama || !gejalaRaw || !rekomendasi || !sebab || !akibat) return alert("Mohon lengkapi semua isian formulir utama.");
 
         const flatKeys = getFlatGejalaKeys();
         const gejalaArray = gejalaRaw.split(",").map(g => g.trim()).filter(g => flatKeys.includes(g));
-        if (gejalaArray.length === 0) return alert("Kode gejala tidak valid. Cek kembali kamus kode di bawah form.");
+        if (gejalaArray.length === 0) return alert("Kode gejala tidak valid. Cek kamus di bawah.");
 
-        knowledgeBase.penyakit[kode] = { nama, gejalaTerkait: gejalaArray, rekomendasi };
-        localStorage.setItem('agroDataV3', JSON.stringify(knowledgeBase));
+        // Menyimpan data lengkap (termasuk 3 form baru)
+        knowledgeBase.penyakit[kode] = { 
+            nama: nama, 
+            gejalaTerkait: gejalaArray, 
+            rekomendasi: rekomendasi,
+            sebab: sebab,
+            akibat: akibat,
+            gambar: gambar || "images/default.jpg" // fallback default
+        };
         
-        alert(`Aturan diagnosis untuk ${nama} berhasil ditambahkan!`);
-        window.location.href = "index.html"; 
+        localStorage.setItem('agroDataV4', JSON.stringify(knowledgeBase));
+        
+        alert(`Data ${nama} berhasil disimpan dengan struktur V4! Silakan cek Perpustakaan.`);
+        window.location.href = "library.html"; // Arahkan ke perpustakaan untuk mengecek hasil
     }
-    // CEK SESI LOGIN (Penjaga Keamanan)
-    if (sessionStorage.getItem("isLoggedIn") !== "true") {
-        alert("Akses Ilegal! Anda harus login terlebih dahulu.");
-        window.location.href = "login.html";
-    }
-
-    // FUNGSI LOGOUT
-    function logout() {
-        sessionStorage.removeItem("isLoggedIn");
-        alert("Anda berhasil keluar dari sesi pakar.");
-        window.location.href = "index.html";
-    }
-
-    // ... (biarkan sisa kode di bawahnya seperti biasa)
-    if (!localStorage.getItem('agroDataV3')) window.location.href = "index.html";
-    // ...
 </script>
 </body>
 </html>
