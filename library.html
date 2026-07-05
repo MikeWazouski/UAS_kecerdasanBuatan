@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroExpert | Perpustakaan Penyakit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-mint: #dcecd5;
+            --bg-white: #f9fcf7;
+            --text-dark: #2b5329;
+            --text-muted: #5a7a58;
+            --accent-green: #3d7a42;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        /* HEADER / TOP NAVBAR */
+        .top-navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 70px; background-color: var(--bg-white); padding: 0 40px;
+            box-shadow: 0 2px 15px rgba(43, 83, 41, 0.08); box-sizing: border-box;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo-area {
+            font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;
+            color: var(--accent-green); text-decoration: none; display: flex; align-items: center; gap: 10px;
+        }
+        .main-menu { display: flex; gap: 30px; align-items: center; }
+        .main-menu a {
+            text-decoration: none; color: var(--text-muted); font-weight: 700;
+            font-size: 14px; letter-spacing: 0.5px; transition: color 0.3s ease; text-transform: uppercase;
+        }
+        .main-menu a:hover, .main-menu a.active { color: var(--accent-green); }
+
+        /* HERO SECTION DENGAN GAMBAR PEXELS */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(43, 83, 41, 0.85) 0%, rgba(61, 122, 66, 0.7) 100%), 
+                        url('https://images.pexels.com/photos/1684149/pexels-photo-1684149.jpeg?auto=compress&cs=tinysrgb&w=2000') center/cover;
+            padding: 80px 40px; text-align: center; color: white;
+        }
+        .hero-banner h1 { font-family: 'Playfair Display', serif; font-size: 48px; margin: 0 0 15px 0; }
+        .hero-banner p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        /* LIBRARY GRID */
+        .library-container {
+            max-width: 1200px; margin: 0 auto; padding: 60px 40px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 35px;
+        }
+
+        /* KARTU ENSIKLOPEDIA */
+        .card {
+            background: #ffffff; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(43, 83, 41, 0.05); border: 1px solid #e8f0e6;
+            transition: 0.3s ease; display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(43, 83, 41, 0.12); }
+        .card-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 3px solid var(--accent-green); }
+        .card-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        .card-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text-dark); margin: 0 0 15px 0; }
+        
+        .section-label { font-size: 13px; font-weight: 700; color: var(--accent-green); text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 8px 0; border-top: 1px dashed #c0d1bc; padding-top: 15px;}
+        .section-label:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+        
+        .symptoms-list { margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+        .symptoms-list li { margin-bottom: 6px; }
+        
+        .recommendation-text { margin: 0; font-size: 15px; color: var(--text-dark); line-height: 1.6; background: var(--bg-mint); padding: 15px; border-radius: 8px; margin-top: auto;}
+
+        @media (max-width: 768px) {
+            .top-navbar { flex-direction: column; height: auto; gap: 15px; padding: 20px; position: static; }
+            .library-container { grid-template-columns: 1fr; padding: 40px 20px; }
+            .hero-banner h1 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="top-navbar">
+    <a href="index.html" class="logo-area">
+        <span style="font-size: 32px;">🌱</span> AgroExpert
+    </a>
+    <nav class="main-menu">
+        <a href="index.html">Konsultasi</a>
+        <a href="library.html" class="active">Perpustakaan</a>
+        <a href="#">Tentang Aplikasi</a>
+        <a href="#">Komplain</a>
+    </nav>
+</header>
+
+<div class="hero-banner">
+    <h1>Ensiklopedia Pertanian</h1>
+    <p>Pelajari berbagai jenis penyakit, hama, serta karakteristik gejalanya pada tanaman padi untuk langkah mitigasi yang lebih preventif.</p>
+</div>
+
+<div class="library-container" id="library-grid">
+    <!-- Kartu Ensiklopedia akan di-render di sini oleh JavaScript -->
+</div>
+
+<script>
+    if (!localStorage.getItem('agroDataV3')) {
+        alert("Sistem belum diinisialisasi. Silakan buka halaman Konsultasi terlebih dahulu.");
+        window.location.href = "index.html";
+    }
+    const knowledgeBase = JSON.parse(localStorage.getItem('agroDataV3'));
+
+    function getFlatGejala() {
+        let flat = {};
+        for (let k in knowledgeBase.kategoriGejala) {
+            Object.assign(flat, knowledgeBase.kategoriGejala[k]);
+        }
+        return flat;
+    }
+    const deskripsiGejala = getFlatGejala();
+
+    // Pemetaan Gambar menggunakan Pexels API (Beserta parameter kompresi)
+    const imageMapping = {
+        "P01": "https://images.pexels.com/photos/235615/pexels-photo-235615.jpeg?auto=compress&cs=tinysrgb&w=600", // Sawah/Blas
+        "P02": "https://images.pexels.com/photos/11093123/pexels-photo-11093123.jpeg?auto=compress&cs=tinysrgb&w=600", // Serangga/Wereng
+        "P03": "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=600", // Daun/Tungro
+        "P04": "https://images.pexels.com/photos/1585472/pexels-photo-1585472.jpeg?auto=compress&cs=tinysrgb&w=600", // Batang Padi
+        "P05": "https://images.pexels.com/photos/1002543/pexels-photo-1002543.jpeg?auto=compress&cs=tinysrgb&w=600", // Sawah Kering/Hawar
+        "P06": "https://images.pexels.com/photos/51340/rat-pet-animal-51340.jpeg?auto=compress&cs=tinysrgb&w=600", // Tikus
+        "P07": "https://images.pexels.com/photos/775199/pexels-photo-775199.jpeg?auto=compress&cs=tinysrgb&w=600", // Keong
+        "P08": "https://images.pexels.com/photos/355088/pexels-photo-355088.jpeg?auto=compress&cs=tinysrgb&w=600", // Kepik/Walang
+        "P09": "https://images.pexels.com/photos/1151421/pexels-photo-1151421.jpeg?auto=compress&cs=tinysrgb&w=600", // Bercak Daun
+        "P10": "https://images.pexels.com/photos/208821/pexels-photo-208821.jpeg?auto=compress&cs=tinysrgb&w=600"  // Gulma/Ganjur
+    };
+    const defaultImage = "https://images.pexels.com/photos/1684149/pexels-photo-1684149.jpeg?auto=compress&cs=tinysrgb&w=600";
+
+    function renderLibrary() {
+        const container = document.getElementById("library-grid");
+        container.innerHTML = "";
+
+        for (const [kodePenyakit, data] of Object.entries(knowledgeBase.penyakit)) {
+            let listGejalaHTML = "";
+            data.gejalaTerkait.forEach(kodeG => {
+                let deskripsi = deskripsiGejala[kodeG] || "Deskripsi gejala tidak ditemukan";
+                listGejalaHTML += `<li>${deskripsi}</li>`;
+            });
+
+            let imgUrl = imageMapping[kodePenyakit] || defaultImage;
+
+            const cardHTML = `
+                <div class="card">
+                    <img src="${imgUrl}" alt="${data.nama}" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">${data.nama}</h3>
+                        
+                        <div class="section-label">Karakteristik & Gejala:</div>
+                        <ul class="symptoms-list">
+                            ${listGejalaHTML}
+                        </ul>
+
+                        <div class="section-label" style="margin-top: 25px;">Solusi Penanganan:</div>
+                        <p class="recommendation-text">${data.rekomendasi}</p>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        }
+    }
+
+    window.onload = renderLibrary;
+</script>
+</body>
+</html>

@@ -22,7 +22,58 @@
             overflow: hidden; 
         }
 
-        .split-layout { display: flex; height: 100vh; width: 100vw; }
+        /* HEADER / TOP NAVBAR */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            background-color: var(--bg-white);
+            padding: 0 40px;
+            box-shadow: 0 2px 15px rgba(43, 83, 41, 0.08);
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo-area {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .main-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .main-menu a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .main-menu a:hover {
+            color: var(--accent-green);
+        }
+
+        /* LAYOUT SPLIT SCREEN */
+        .split-layout { 
+            display: flex; 
+            /* Mengurangi tinggi total viewport dengan tinggi header (70px) */
+            height: calc(100vh - 70px); 
+            width: 100vw; 
+        }
 
         /* KOLOM KIRI */
         .left-panel {
@@ -41,18 +92,18 @@
 
         /* KOLOM KANAN */
         .right-panel {
-            flex: 1; background-color: var(--bg-white); padding: 60px 80px;
+            flex: 1; background-color: var(--bg-white); padding: 50px 80px;
             overflow-y: auto; box-sizing: border-box; position: relative; scroll-behavior: smooth;
         }
         .nav-links { position: absolute; top: 30px; right: 40px; }
         .nav-links a {
             text-decoration: none; color: var(--accent-green); font-weight: 700;
-            font-size: 14px; letter-spacing: 1px; padding: 10px 20px;
+            font-size: 13px; letter-spacing: 1px; padding: 10px 20px;
             background: var(--bg-mint); border-radius: 30px; transition: 0.3s;
         }
         .nav-links a:hover { background: var(--accent-green); color: white; }
 
-        .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 30px; color: var(--text-dark); margin-top: 20px; }
+        .form-title { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 25px; color: var(--text-dark); margin-top: 20px; }
         .kategori-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text-dark); margin: 25px 0 15px 0; border-bottom: 2px solid var(--bg-mint); padding-bottom: 10px; }
         
         .gejala-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
@@ -66,9 +117,7 @@
         .kode-gejala { font-weight: 700; color: var(--accent-green); margin-right: 5px; }
 
         /* GRUP TOMBOL AKSI */
-        .action-buttons {
-            display: flex; gap: 15px; margin-top: 40px;
-        }
+        .action-buttons { display: flex; gap: 15px; margin-top: 40px; }
         .btn-diagnosa {
             flex: 2; padding: 18px; background-color: var(--accent-green); color: white; border: none;
             border-radius: 10px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
@@ -113,7 +162,9 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* RESPONSIVE MOBILE */
         @media (max-width: 900px) {
+            .top-navbar { flex-direction: column; height: auto; gap: 15px; padding: 20px; }
             .split-layout { flex-direction: column; height: auto; overflow: visible; }
             body { overflow: visible; }
             .left-panel { flex: none; height: 350px; padding: 40px; }
@@ -127,10 +178,22 @@
 </head>
 <body>
 
+<!-- Header Utama -->
+<header class="top-navbar">
+    <a href="index.html" class="logo-area">
+        <span style="font-size: 32px;">🥀</span> AgroExpert
+    </a>
+    <nav class="main-menu">
+        <a href="library.html">Perpustakaan</a>
+        <a href="#">Tentang Aplikasi</a>
+        <a href="#">Komplain</a>
+    </nav>
+</header>
+
 <div class="split-layout">
     <div class="left-panel">
         <div class="header-content">
-            <h1>AgroExpert<br>System</h1>
+            <h1>Sistem Pakar<br>Pertanian</h1>
             <p>Membantu petani mengidentifikasi hama dan penyakit tanaman padi dengan akurat demi hasil panen yang lebih sehat dan berlimpah secara alami.</p>
         </div>
     </div>
@@ -140,7 +203,8 @@
         
         <h2 class="form-title">Konsultasi Gejala</h2>
         <div id="gejala-container">
-            </div>
+            <!-- Dirender oleh JS -->
+        </div>
 
         <div class="action-buttons">
             <button class="btn-diagnosa" onclick="diagnosa()">Mulai Analisis</button>
@@ -153,6 +217,7 @@
                     <p id="label-akurasi">Diagnosis Sistem</p>
                     <h3 id="nama-penyakit">Nama Penyakit</h3>
                 </div>
+                <!-- Animasi Lingkaran Akurasi -->
                 <div class="circular-progress">
                     <svg viewBox="0 0 36 36" class="circular-chart">
                         <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
@@ -247,7 +312,6 @@
         }
     }
 
-    // Fungsi Reset Form
     function resetForm() {
         const checkboxes = document.querySelectorAll('.gejala-item input[type="checkbox"]');
         checkboxes.forEach(cb => cb.checked = false);
@@ -256,7 +320,6 @@
         document.getElementById("circle-bar").style.strokeDasharray = "0, 100";
         document.getElementById("circle-text").textContent = "0%";
         
-        // Scroll kembali ke atas kotak konsultasi
         document.getElementById("scroll-area").scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -266,7 +329,6 @@
         const resultBox = document.getElementById("hasil-diagnosis");
         const flatGejala = getFlatGejala();
         
-        // Elemen SVG Animasi
         const circleBar = document.getElementById("circle-bar");
         const circleText = document.getElementById("circle-text");
 
@@ -285,10 +347,7 @@
             }
         }
 
-        // Tampilkan Kotak Hasil
         resultBox.style.display = "block";
-        
-        // Reset animasi lingkaran ke 0 sebelum memulai animasi baru
         circleBar.style.strokeDasharray = "0, 100";
 
         if (kandidatTerbaik && skorTertinggi >= 50) {
@@ -303,7 +362,6 @@
             });
             document.getElementById("penjelasan-logika").innerHTML = penjelasanHtml + "</ul>";
 
-            // Jalankan animasi lingkaran dengan sedikit delay agar transisi CSS terlihat
             setTimeout(() => {
                 circleBar.style.strokeDasharray = `${skorTertinggi}, 100`;
                 circleText.textContent = `${skorTertinggi.toFixed(0)}%`;
@@ -315,14 +373,12 @@
             document.getElementById("rekomendasi-penyakit").innerText = "Gejala yang dimasukkan terlalu acak. Disarankan berkonsultasi langsung dengan penyuluh pertanian.";
             document.getElementById("penjelasan-logika").innerHTML = "";
             
-            // Set lingkaran animasi merah untuk kegagalan (opsional)
             setTimeout(() => {
                 circleBar.style.strokeDasharray = `${skorTertinggi}, 100`;
                 circleText.textContent = `${skorTertinggi.toFixed(0)}%`;
             }, 100);
         }
 
-        // Otomatis scroll ke bagian hasil
         setTimeout(() => {
             resultBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }, 50);
